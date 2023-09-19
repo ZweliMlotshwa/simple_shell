@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * shell_help - displays help information for the built-in commands
+ * own_shell_help - displays help information for the built-in commands
  */
 void own_shell_help(void)
 {

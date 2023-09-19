@@ -29,10 +29,10 @@ int own_atoi(const char *str)
 }
 
 /**
- **own_memset - fills memory with a constant byte
- *@s: the pointer to the memory area
- *@b: the byte to fill *s with
- *@n: the amount of bytes to be filled
+ **own_memset - Fills memory with a constant byte.
+ *@s: The pointer to the memory area.
+ *@b: The byte to fill *s with.
+ *@n: The amount of bytes to be filled.
  *Return: a pointer to the memory area s
  */
 char *own_memset(char *s, char b, unsigned int n)
@@ -45,11 +45,11 @@ char *own_memset(char *s, char b, unsigned int n)
 }
 
 /**
- * _memcpy - function that copies memory area
+ * own_memcpy - Function that copies memory area.
  *
- * @dest: buffer where we will copy to
- * @src: what we are to copy
- * @n: n bytes of @src
+ * @dest: Buffer where we will copy to.
+ * @src: What we are to copy.
+ * @n: n bytes of @src.
  *
  * Return: Always 0 (Success)
 */
@@ -64,10 +64,10 @@ char *own_memcpy(char *dest, char *src, unsigned int n)
 }
 
 /**
- * _realloc - reallocates a block of memory
- * @ptr: pointer to previous mallocated block
- * @old_size: byte size of previous block
- * @new_size: byte size of new block
+ * own_realloc - Reallocates a block of memory.
+ * @ptr: Pointer to previous mallocated block.
+ * @old_size: byte size of previous block.
+ * @new_size: byte size of new block.
  *
  * Return: pointer to the old block namen.
  */

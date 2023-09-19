@@ -38,7 +38,7 @@ int own_strcmp(const char *s1, const char *s2)
 }
 
 /**
- * _strncmp - Compare two strings up to a specified length.
+ * own_strncmp - Compare two strings up to a specified length.
  * @s1: First string to be compared.
  * @s2: Second string to be compared.
  * @n: Maximum number of the characters to be compared.
@@ -65,9 +65,9 @@ int own_strncmp(const char *s1, const char *s2, size_t n)
 }
 
 /**
- * _strstr - checks if needle start with haystack
- * @haystack: string to search
- * @needle: the substring to find
+ * own_strstr - Checks if needle start with haystack
+ * @haystack: String to search
+ * @needle: The substring to find
  *
  * Return: address of next char of haystack or NULL
  */
@@ -99,12 +99,12 @@ char *own_strstr(char *haystack, char *needle)
 }
 
 /**
- * owm_strchr - a function that locates a character in a string
+ * own_strchr - Function that locates a character in a string
  *
- * @s: pointer to our string array input
- * @c: character to locate from input array
+ * @s: Pointer to our string array input
+ * @c: Character to locate from input array
  *
- * Return: first occurence of charatcer or null if not found
+ * Return: First occurence of charatcer or null if not found
 */
 
 char *own_strchr(char *s, char c)

@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _puts - Prints a string to stdout stream
+ * own_puts - Prints a string to stdout stream
  * @str: string to print
  *
  * Return: Void
@@ -20,7 +20,7 @@ void own_puts(char *str)
 }
 
 /**
- * _puterror - Prints an error message to stderror stream
+ * own_puterror - Prints an error message to stderror stream
  * @err: error message to print
  *
  * Return: Void
