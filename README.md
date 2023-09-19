@@ -1,4 +1,1 @@
-0x16. C - Simple Shell
-C Language
-Group project
-Syscall
+0x16. C - Simple Shell project done by Zweli Mlotshwa and Enough Mkhabela
