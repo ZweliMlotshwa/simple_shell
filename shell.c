@@ -1,40 +1,40 @@
 #include "shell.h"
 
 /**
- * main - implements a simple shell
- * group project - by Enough and Zweli
- * Return: EXIT_SUCCESS.
- */
+ * get_input - Read the line of input from user.
+ *
+ * Return: Pointer to a buffer conatining the user's input.
+*/
 
 int main(void)
 {
-	char *input;
-	char **args;
-	int status;
+    char *input;
+    char **args;
+    int status = 0;
 
-	/* Register signal handlers */
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
-	signal(SIGTSTP, handle_sigstp);
+    do {
+        input = get_input();
 
-	do {
-		input = get_input();
-		if (!input || !*input)/* EOF detected to exit the loop */
-			break;
+        if (input == NULL) {
+            own_puts("\n");
+            break;
+        }
 
-		args = tokenize_input(input);
-		if (!args || !*args)
-		{
-			free(input);
-			free_tokens(args);
-			continue;
-		}
-		status = execute(args);
-		free(input);
-		free_tokens(args);
+        args = tokenize_input(input);
 
-		status = 1;
-	} while (status);
+        if (args == NULL || args[0] == NULL) {
+            free(input);
+            continue;
+        }
 
-	return (EXIT_SUCCESS);
+        status = execute(args);
+
+        free(input);
+        free_tokens(args);
+
+    } while (1);
+
+    (void)status;
+
+    return EXIT_SUCCESS;
 }

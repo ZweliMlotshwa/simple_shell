@@ -13,9 +13,7 @@ char *get_input(void)
 	ssize_t nread;
 
 	do {
-		/* print shell prompt */
 		prompt();
-
 		/* get a line of input from user */
 		nread = getline(&input, &input_size, stdin);
 
