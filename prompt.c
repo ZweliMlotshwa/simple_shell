@@ -7,6 +7,6 @@
  */
 void prompt(void)
 {
-	own_puts("Alx$: ");
+	own_puts("Alx$ ");
 	fflush(stdout);
 }
