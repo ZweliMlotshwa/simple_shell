@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * get_input - Read the line of input from user.
+ * get_input - Read line of the input from user.
  *
- * Return: Pointer to a buffer conatining the user's input.
+ * Return: Pointer to buffer conatining the user's input.
 */
 
 int main(void)
