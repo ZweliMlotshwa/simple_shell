@@ -1,60 +1,28 @@
 #include "shell.h"
 
 /**
- * free_error - frees allocated pointers, following system error
- * @argv: pointer to a pointer to an array of pointers
- * @arg: pointer to a pointer to an array of characters
+ * freess - a function that free the path and the list_token.
  *
- * Return: void.
+ * @path: path.
+ * @list_token: list token.
  */
-void free_error(char **argv, char *arg)
+void freess(char *path, char **list_token)
 {
-	int i;
-
-	for (i = 0; argv[i]; i++)
-		free(argv[i]);
-	free(argv);
-	free(arg);
-	exit(EXIT_FAILURE);
+	free(path);
+	free_tokens(list_token);
 }
 
 /**
- * free_tokens - frees memory alloc'd firmly by tokenizing
- * @ptr: pointer to allocated memory
+ * freesess - a function that free the path, the list_token and the command.
  *
- * Return: void.
- */
-void free_tokens(char **ptr)
-{
-	int i;
-
-	for (i = 0; ptr[i]; i++)
-		free((ptr[i]));
-	free(ptr);
-}
-
-
-/**
- * free_path - Frees the global variable containing the PATH environment
- * variables value
+ * @path: path.
+ * @list_token: list token.
+ * @command: command.
  *
- * Return: Nothing
  */
-void free_path(void)
+void freesess(char *path, char **list_token, char *command)
 {
-	if (environ != NULL)
-	{
-		size_t i = 0;
-
-		while (environ[i] != NULL)
-		{
-			if (own_strncmp(environ[i], "PATH=", 5) == 0)
-			{
-				free(environ[i]);
-				environ[i] = NULL;
-				break;
-			}
-			i++;
-		}
-	}
+	free(path);
+	free(list_token);
+	free(command);
 }

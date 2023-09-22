@@ -1,50 +1,31 @@
 #include "shell.h"
-
 /**
- * execute - Execute a command with arguments.
- * @argv: An array of strings containing the command and its arguments.
- * group project - by Enough and Zweli
- * Return: The exit status of the executed command.
+ * execute - the Function that create a parent and child process (fork).
+ *
+ * @list_token: list token.
+ * @path: Path
+ *
+ * Return: status.
  */
-int execute(char **argv)
+int execut(char **list_token, char *path)
 {
-	pid_t id;
-	int status = 0;
-	char *cmd_path, *envp[2];
+	pid_t pidC;
 
-	if (argv == NULL || *argv == NULL)
-		return (status);
-	if (check_for_builtin(argv))
-		return (status);
+	pidC = fork();
 
-	id = fork();
-	if (id < 0)
+	if (pidC == -1)
 	{
-		own_puterror("fork");
-		return (1);
+		perror("Creation of a child process was unsuccessful!");
+		return (-1);
 	}
-	if (id == -1)
-		perror(argv[0]), free_tokens(argv), free_last_input();
-	if (id == 0)
+	if (pidC == 0)
 	{
-		envp[0] = get_path();
-		envp[1] = NULL;
-		cmd_path = NULL;
-		if (argv[0][0] != '/')
-			cmd_path = find_in_path(argv[0]);
-		if (cmd_path == NULL)
-			cmd_path = argv[0];
-		if (execve(cmd_path, argv, envp) == -1)
-		{
-			perror(argv[0]), free_tokens(argv), free_last_input();
-			exit(EXIT_FAILURE);
-		}
+		if (execve(path, list_token, environ) == -1)
+			return (-1);
 	}
 	else
-	{
-		do {
-			waitpid(id, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
+		wait(&status);
+	STATUS = status;
+
 	return (status);
 }

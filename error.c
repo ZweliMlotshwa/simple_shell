@@ -1,39 +1,35 @@
 #include "shell.h"
 
 /**
- * own_puts - Prints a string to stdout stream
- * @str: string to print
+ * error_input - Function that prints an error messages.
  *
- * Return: Void
+ * @copy: Copy.
  */
-void own_puts(char *str)
+void error_input(char *copy)
 {
-	size_t len;
-	ssize_t num_written;
+    char *msj_error = NULL;
+    int length = 0;
 
-	len = own_strlen(str);
-	num_written = write(STDOUT_FILENO, str, len);
-	if (num_written == -1)
-	{
-		perror("write");
-	}
-}
+    msj_error = _calloc((strlen(copy) + 23), sizeof(char));
+    if (msj_error == NULL)
+    {
+        free(msj_error);
+        return;
+    }
+    strcat(msj_error, "./hsh: ");
+    strcat(msj_error, "1");
+    strcat(msj_error, ": ");
+    strcat(msj_error, copy);
 
-/**
- * own_puterror - Prints an error message to stderror stream
- * @err: error message to print
- *
- * Return: Void
- */
-void own_puterror(char *err)
-{
-	size_t len;
-	ssize_t num_written;
+    strcat(msj_error, ": not found\n");
+    length = strlen(msj_error);
+   
+    if (write(2, msj_error, length) == -1)
+    {
+        perror("write");
+    }
 
-	len = own_strlen(err);
-	num_written = write(STDERR_FILENO, err, len);
-	if (num_written == -1)
-	{
-		perror("write");
-	}
+    STATUS = 32512;
+
+    free(msj_error);
 }

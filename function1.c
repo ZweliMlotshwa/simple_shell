@@ -1,126 +1,85 @@
 #include "shell.h"
 
 /**
- * own_strlen - returns the length of a string
- * @s: string whose length to check
- *
- * Return: integer length of string
+ * exit_funcion - exit command.
+ * Return: 1.
  */
-int own_strlen(const char *s)
+int exit_func(void)
 {
-	int i = 0;
-
-	if (!s)
-		return (0);
-
-	while (*s++)
-		i++;
-	return (i);
+	return (1);
 }
 
 /**
- * own_strcmp - Compare two strings.
- * @s1: The first string to compare.
- * @s2: The second string to compare.
- * Return: 0 if @s1 and @s2 are equal,
- * a negative value if @s1 is less than @s2,
- * or a positive value if @s1 is greater than @s2.
+ * env_funcion - Function that looks for a builtin (env).
+ *
+ * Return: 0.
  */
-int own_strcmp(const char *s1, const char *s2)
+int env_func(void)
 {
-	while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
+    int i = 0;
 
-	return ((int) (*s1) - (*s2));
+    while (environ && environ[i])
+    {
+        if (write(STDOUT_FILENO, environ[i], strlen(environ[i])) == -1)
+        {
+            perror("write");
+            return -1; 
+        }
+        if (write(STDOUT_FILENO, "\n", 1) == -1)
+        {
+            perror("write");
+            return -1; 
+        }
+        i++;
+    }
+    return 0; 
 }
 
 /**
- * own_strncmp - Compare two strings up to a specified length.
- * @s1: First string to be compared.
- * @s2: Second string to be compared.
- * @n: Maximum number of the characters to be compared.
+ * get_built_in - Selects the correct function,
+ * set by the user.
  *
- * Return: 0 if the strings are equal up to n characters, negative value
- * if s1 is less than s2, or positive value if s1 is greater than s2.
- */
-int own_strncmp(const char *s1, const char *s2, size_t n)
-{
-	unsigned char c1, c2;
-
-	while (n-- > 0)
-	{
-		c1 = (unsigned char) *s1++;
-		c2 = (unsigned char) *s2++;
-
-		if (c1 != c2)
-			return (c1 - c2);
-		if (c1 == '\0')
-			break;
-	}
-
-	return (0);
-}
-
-/**
- * own_strstr - Checks if needle start with haystack
- * @haystack: String to search
- * @needle: The substring to find
+ * @s: format.
+ * Return: 0
  *
- * Return: address of next char of haystack or NULL
  */
-char *own_strstr(char *haystack, char *needle)
+int (*get_built_in(char *s))(void)
 {
 	int i;
+	op_t func[] = {
+		{"env", env_func},
+		{"exit", exit_func},
+		{NULL, NULL}
+	};
 
-	for (i = 0; haystack[i] != '\0'; i++)
-	{
-		if (haystack[i] == needle[0])
-		{
-			int j;
-
-			for (j = 0; needle[j] != '\0'; j++)
-			{
-				if (haystack[i + j] != needle[j])
-				{
-					break;
-				}
-			}
-
-			if (needle[j] == '\0')
-			{
-				return (&haystack[i]);
-			}
-		}
-	}
+	for (i = 0; func[i].key != NULL; i++)
+		if (strcmp(func[i].key, s) == 0)
+			return (func[i].e);
 	return (NULL);
 }
 
 /**
- * own_strchr - Function that locates a character in a string
+ * check_built_in - the Function that acts according to whether or not the
+ * command exists.
  *
- * @s: Pointer to our string array input
- * @c: Character to locate from input array
- *
- * Return: First occurence of charatcer or null if not found
-*/
-
-char *own_strchr(char *s, char c)
+ * @e: Function to check.
+ * @buffer: Space in memory.
+ * @command: Command.
+ */
+void check_built_in(int (*e)(), char **buffer, char *command)
 {
-	while (*s != '\0')
+	if (e == exit_func)
 	{
-		if (*s == c)
-			return (s);
-		s++;
+		free(command);
+		free(buffer);
+		exit(WEXITSTATUS(STATUS));
 	}
-	/**
-	 * if c is '\0', you should return
-	 * the pointer to the '\0' of the
-	 * string s
-	*/
-	if (*s == c)
-		return (s);
-	return (NULL);
+	if (e)
+	{
+		if (e() == 1)
+		{
+			free(command);
+			free(buffer);
+		}
+	}
 }
